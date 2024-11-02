@@ -34,3 +34,40 @@ E:\MyCodes\DJ helper\DJ helper\DJ helper\bin\Debug\System.Memory.xml
 E:\MyCodes\DJ helper\DJ helper\DJ helper\bin\Debug\System.Numerics.Vectors.xml
 E:\MyCodes\DJ helper\DJ helper\DJ helper\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 E:\MyCodes\DJ helper\DJ helper\DJ helper\obj\Debug\DJ_helper.View.Form1.resources
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\DJ helper.exe.config
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\DJ helper.exe
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\DJ helper.pdb
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\EPPlus.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\EPPlus.Interfaces.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\EPPlus.System.Drawing.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Microsoft.Practices.CompositeUI.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Microsoft.Practices.CompositeUI.WinForms.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Microsoft.Practices.ObjectBuilder.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Buffers.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.ComponentModel.Annotations.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Memory.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Numerics.Vectors.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.CompositeUI.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.GridView.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.RadChart.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.RadDock.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Telerik.WinControls.UI.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\TelerikCommon.dll
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\EPPlus.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Buffers.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Memory.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Numerics.Vectors.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.csproj.AssemblyReference.cache
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ_helper.Properties.Resources.resources
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ_helper.View.Form1.resources
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.csproj.GenerateResource.cache
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.csproj.CoreCompileInputs.cache
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.csproj.Up2Date
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.exe
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.pdb
+E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Model\config.xml

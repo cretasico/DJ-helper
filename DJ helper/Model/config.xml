@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuracion>
+  <ExcelPath>E:\Musica-E\Organizacion\Biblioteca.xlsx</ExcelPath>
+  <SpotifyAPIKey>your_spotify_api_key</SpotifyAPIKey>
+  <LibraryName>Biblioteca de Canciones</LibraryName>
+
+  <!-- Etiquetas de archivos MP3 -->
+  <FileTags>
+    <Tag name="title">title</Tag>
+    <Tag name="artist">artist</Tag>
+    <Tag name="bpm">bpm</Tag>
+    <Tag name="genre">genre</Tag>
+    <Tag name="date">date</Tag>
+  </FileTags>
+
+  <!-- Etiquetas de Spotify API -->
+  <SpotifyTags>
+    <Tag name="energy">energy</Tag>
+    <Tag name="key">key</Tag>
+    <Tag name="popularity">popularity</Tag>
+  </SpotifyTags>
+</Configuracion>

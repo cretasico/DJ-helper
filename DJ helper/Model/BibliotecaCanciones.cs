@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;            // Espacio de nombres para la manipulación de archivos
-using OfficeOpenXml;       // Espacio de nombres para EPPlus
+using System.IO;
+using OfficeOpenXml; // Espacio de nombres para EPPlus
 
 namespace DJ_helper.Model
 {
@@ -27,6 +24,9 @@ namespace DJ_helper.Model
             {
                 throw new FileNotFoundException("El archivo de canciones no se encontró.", rutaArchivo);
             }
+
+            // Limpia la lista antes de cargar nuevas canciones
+            Canciones.Clear();
 
             // Configuración de EPPlus para trabajar con el archivo Excel
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
