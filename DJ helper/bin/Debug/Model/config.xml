@@ -2,7 +2,11 @@
 <Configuracion>
   <ExcelPath>E:\Musica-E\Organizacion\Biblioteca.xlsx</ExcelPath>
   <SpotifyAPIKey>your_spotify_api_key</SpotifyAPIKey>
+<<<<<<< HEAD
   <LibraryName>Biblioteca.xlsx</LibraryName>
+=======
+  <LibraryName>Biblioteca de Canciones</LibraryName>
+>>>>>>> DJ-helper/DJ-helper
 
   <!-- Etiquetas de archivos MP3 -->
   <FileTags>

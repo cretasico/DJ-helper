@@ -1,6 +1,9 @@
 ﻿using DJ_helper.Model;
 using System.ComponentModel;
+<<<<<<< HEAD
 using System.Threading.Tasks;
+=======
+>>>>>>> DJ-helper/DJ-helper
 using System.Windows.Input;
 
 namespace DJ_helper.ViewModel
@@ -8,9 +11,13 @@ namespace DJ_helper.ViewModel
     public class BibliotecaViewModel : INotifyPropertyChanged
     {
         private readonly ConfiguracionManager _configManager;
+<<<<<<< HEAD
         private readonly BibliotecaCanciones _bibliotecaCanciones;
         private int _progreso;
         private string _archivoActual;
+=======
+        private BibliotecaCanciones bibliotecaCanciones;
+>>>>>>> DJ-helper/DJ-helper
 
         public BibliotecaViewModel()
         {
@@ -23,6 +30,7 @@ namespace DJ_helper.ViewModel
             NombreBiblioteca = _configManager.ObtenerNombreBiblioteca();
 
             // Inicializa la biblioteca de canciones y comandos
+<<<<<<< HEAD
             _bibliotecaCanciones = new BibliotecaCanciones();
             _bibliotecaCanciones.ProgresoActualizado += (progreso, archivo) =>
             {
@@ -32,6 +40,10 @@ namespace DJ_helper.ViewModel
 
             Canciones = new BindingList<Cancion>();
             ExportarCommand = new RelayCommand(async _ => await ExportarCanciones());
+=======
+            bibliotecaCanciones = new BibliotecaCanciones();
+            Canciones = new BindingList<Cancion>();
+>>>>>>> DJ-helper/DJ-helper
             CargarCommand = new RelayCommand(CargarCanciones);
             ActualizarRutaExcelCommand = new RelayCommand(ActualizarRutaExcel);
         }
@@ -46,6 +58,7 @@ namespace DJ_helper.ViewModel
 
         // Comandos para la UI
         public ICommand CargarCommand { get; }
+<<<<<<< HEAD
         public ICommand ActualizarRutaExcelCommand { get; }
         public ICommand ExportarCommand { get; }
 
@@ -83,6 +96,14 @@ namespace DJ_helper.ViewModel
         private void CargarCanciones()
         {
             _bibliotecaCanciones.CargarDesdeExcel(RutaExcel);
+=======
+        public ICommand ActualizarRutaExcelCommand { get; } // Comando para actualizar la ruta de Excel
+
+        // Método para cargar canciones desde la ruta de Excel
+        private void CargarCanciones()
+        {
+            bibliotecaCanciones.CargarDesdeExcel(RutaExcel);
+>>>>>>> DJ-helper/DJ-helper
             Canciones.Clear();
 
             // Agregar las canciones cargadas a la lista enlazada
@@ -96,6 +117,17 @@ namespace DJ_helper.ViewModel
 
         // Método para actualizar la ruta de Excel en el archivo de configuración
         private void ActualizarRutaExcel()
+<<<<<<< HEAD
+=======
+        {
+            _configManager.ActualizarRutaExcel(RutaExcel);
+            OnPropertyChanged(nameof(RutaExcel));
+        }
+
+        // Implementación de INotifyPropertyChanged para actualizar la vista
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+>>>>>>> DJ-helper/DJ-helper
         {
             _configManager.ActualizarRutaExcel(RutaExcel);
             OnPropertyChanged(nameof(RutaExcel));

@@ -162,11 +162,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <Page Include="View\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+=======
+>>>>>>> DJ-helper/DJ-helper
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

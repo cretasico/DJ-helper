@@ -18,12 +18,15 @@ namespace DJ_helper.Model
             XDocument doc = XDocument.Load(_configFilePath);
             return doc.Root.Element("ExcelPath")?.Value;
         }
+<<<<<<< HEAD
         public string ObtenerSourcePath()
         {
             XDocument doc = XDocument.Load(_configFilePath);
             return doc.Root.Element("Source")?.Value;
         }
 
+=======
+>>>>>>> DJ-helper/DJ-helper
 
         public string ObtenerSpotifyAPIKey()
         {

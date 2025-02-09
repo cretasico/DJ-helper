@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+<<<<<<< HEAD
 using System.Threading.Tasks;
 using OfficeOpenXml; // Espacio de nombres para EPPlus
 using TagLib; // Biblioteca para leer metadatos de archivos de audio
+=======
+using OfficeOpenXml; // Espacio de nombres para EPPlus
+>>>>>>> DJ-helper/DJ-helper
 
 namespace DJ_helper.Model
 {
@@ -134,8 +138,12 @@ namespace DJ_helper.Model
                 throw new FileNotFoundException("El archivo de canciones no se encontró.", rutaArchivo);
             }
 
+<<<<<<< HEAD
 
             // Limpiar la lista antes de cargar nuevas canciones
+=======
+            // Limpia la lista antes de cargar nuevas canciones
+>>>>>>> DJ-helper/DJ-helper
             Canciones.Clear();
 
             // Configuración de EPPlus para trabajar con el archivo Excel

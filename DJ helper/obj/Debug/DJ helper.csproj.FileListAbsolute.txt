@@ -71,8 +71,11 @@ E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.csproj.Up
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.exe
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.pdb
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\bin\Debug\Model\config.xml
+<<<<<<< HEAD
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper_Content.g.cs
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper_MarkupCompile.cache
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\View\MainView.baml
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\View\MainView.g.cs
 E:\MyCodes\DJ helper\DJ helper\DJ-helper\DJ helper\obj\Debug\DJ helper.g.resources
+=======
+>>>>>>> DJ-helper/DJ-helper
