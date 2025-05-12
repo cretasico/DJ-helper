@@ -1,7 +1,10 @@
 ﻿using DJ_helper.Model;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using System;
 
 namespace DJ_helper.ViewModel
 {
@@ -14,15 +17,16 @@ namespace DJ_helper.ViewModel
 
         public BibliotecaViewModel()
         {
-            // Inicializa ConfiguracionManager con la ruta al archivo XML
-            _configManager = new ConfiguracionManager("Model/config.xml");
+            // Inicializa ConfiguracionManager con una ruta más segura
+            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Model/config.xml");
+            _configManager = new ConfiguracionManager(configPath);
 
             // Obtén y asigna los valores de configuración iniciales
             RutaExcel = _configManager.ObtenerRutaExcel();
             SpotifyAPIKey = _configManager.ObtenerSpotifyAPIKey();
             NombreBiblioteca = _configManager.ObtenerNombreBiblioteca();
 
-            // Inicializa la biblioteca de canciones y comandos
+            // Inicializa la biblioteca de canciones y sus eventos
             _bibliotecaCanciones = new BibliotecaCanciones();
             _bibliotecaCanciones.ProgresoActualizado += (progreso, archivo) =>
             {
@@ -31,70 +35,91 @@ namespace DJ_helper.ViewModel
             };
 
             Canciones = new BindingList<Cancion>();
-            ExportarCommand = new RelayCommand(async _ => await ExportarCanciones());
-            CargarCommand = new RelayCommand(CargarCanciones);
-            ActualizarRutaExcelCommand = new RelayCommand(ActualizarRutaExcel);
+
+            // Inicializa comandos
+            ExportarCommand = new AsyncRelayCommand(ExportarCanciones);
+            CargarCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(CargarCanciones);
+            ActualizarRutaExcelCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(ActualizarRutaExcel);
+
         }
 
-        // Propiedades para las configuraciones
+        // Propiedades de configuración
         public string RutaExcel { get; set; }
         public string SpotifyAPIKey { get; set; }
         public string NombreBiblioteca { get; set; }
 
-        // Lista de canciones para enlazar a la vista
+        // Lista de canciones para la UI
         public BindingList<Cancion> Canciones { get; private set; }
 
+
         // Comandos para la UI
-        public ICommand CargarCommand { get; }
-        public ICommand ActualizarRutaExcelCommand { get; }
-        public ICommand ExportarCommand { get; }
+        public IAsyncRelayCommand ExportarCommand { get; }
+        public IRelayCommand CargarCommand { get; }
+        public IRelayCommand ActualizarRutaExcelCommand { get; }
 
         #region Propiedades de Progreso y Archivo Actual
-        // Propiedad para mostrar el progreso de exportación
         public int Progreso
         {
             get => _progreso;
-            set { _progreso = value; OnPropertyChanged(nameof(Progreso)); }
+            set
+            {
+                if (_progreso != value)
+                {
+                    _progreso = value;
+                    OnPropertyChanged(nameof(Progreso));
+                }
+            }
         }
 
-        // Propiedad para mostrar el archivo actual en proceso
         public string ArchivoActual
         {
             get => _archivoActual;
-            set { _archivoActual = value; OnPropertyChanged(nameof(ArchivoActual)); }
+            set
+            {
+                if (_archivoActual != value)
+                {
+                    _archivoActual = value;
+                    OnPropertyChanged(nameof(ArchivoActual));
+                }
+            }
         }
         #endregion
 
-        #region Creación de archivo Excel y Exportación
-        // Método para exportar canciones a un archivo Excel
+        #region Métodos para Exportación y Carga
         private async Task ExportarCanciones()
         {
-            // Llama al método para exportar canciones, usando los datos de configuración
-            await _bibliotecaCanciones.ExportarCancionesAExcel(
-                _configManager.ObtenerSourcePath(),
-                _configManager.ObtenerRutaExcel(),
-                _configManager.ObtenerNombreBiblioteca()
-            );
+            try
+            {
+                await _bibliotecaCanciones.ExportarCancionesAExcel(
+                    _configManager.ObtenerSourcePath(),
+                    RutaExcel,
+                    NombreBiblioteca
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al exportar canciones: {ex.Message}");
+            }
         }
-        #endregion
 
-        #region Carga de datos desde Excel
-        // Método para cargar canciones desde la ruta de Excel
         private void CargarCanciones()
         {
-            _bibliotecaCanciones.CargarDesdeExcel(RutaExcel);
-            Canciones.Clear();
-
-            // Agregar las canciones cargadas a la lista enlazada
-            foreach (var cancion in _bibliotecaCanciones.Canciones)
+            try
             {
-                Canciones.Add(cancion);
+                _bibliotecaCanciones.CargarDesdeExcel(RutaExcel);
+                Canciones.Clear(); // Limpia la lista actual sin reemplazar la instancia
+                foreach (var cancion in _bibliotecaCanciones.Canciones)
+                {
+                    Canciones.Add(cancion);
+                }
             }
-
-            OnPropertyChanged(nameof(Canciones));
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar canciones: {ex.Message}");
+            }
         }
 
-        // Método para actualizar la ruta de Excel en el archivo de configuración
+
         private void ActualizarRutaExcel()
         {
             _configManager.ActualizarRutaExcel(RutaExcel);
