@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <!-- Paths -->
+  <ExcelPath>E:\Musica-E\Organizacion\Library.xlsx</ExcelPath>
+  <ExcelPath_Old>E:\Musica-E\Organizacion\Biblioteca_old.xlsx</ExcelPath_Old>
+  <Source>E:\Musica-E\DJ Project\</Source>
+  <!-- Spotify -->
+  <SpotifyAPIKey>your_spotify_api_key</SpotifyAPIKey>
+  <!-- subjective user scale -->
+  <RatingScale>
+    <Level_Normal>Normal</Level_Normal>
+    <Level_Good>Bueno</Level_Good>
+    <Level_Super>Super</Level_Super>
+  </RatingScale>
+</Configuration>

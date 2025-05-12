@@ -1,0 +1,12 @@
+﻿<Application x:Class="DJ_WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DJ_WPF" 
+             xmlns:converters="clr-namespace:DJ_WPF.Converters"
+             xmlns:view="clr-namespace:DJ_WPF.View"
+             xmlns:viewModel="clr-namespace:DJ_WPF.ViewModel"
+             StartupUri="View/MainWindow.xaml">
+    <Application.Resources>        
+        <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
+    </Application.Resources>
+</Application>

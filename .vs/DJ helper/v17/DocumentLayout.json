@@ -3,32 +3,28 @@
   "WorkspaceRootPath": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj helper\\viewmodel\\bibliotecaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\viewmodel\\bibliotecaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\view\\addscoreview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\view\\addscoreview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\model\\configuracionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\model\\configuracionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\viewmodel\\addscoreviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\viewmodel\\addscoreviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\model\\bibliotecacanciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\model\\bibliotecacanciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\model\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\model\\song.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\services\\audioplayerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\services\\audioplayerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\model\\songrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\model\\songrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\model\\cancion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\model\\cancion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\dj helper\\model\\config.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A54DF5EB-67E7-4E6A-AEF9-35AC45E36251}|DJ helper\\DJ helper.csproj|solutionrelative:dj helper\\model\\config.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|e:\\mycodes\\dj helper\\dj helper\\dj-helper\\dj_wpf\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5210B3-9579-494A-8601-E03D348571C3}|DJ_WPF\\DJ_WPF.csproj|solutionrelative:dj_wpf\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,87 +38,78 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ConfiguracionManager.cs",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\ConfiguracionManager.cs",
-              "RelativeDocumentMoniker": "DJ helper\\Model\\ConfiguracionManager.cs",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\ConfiguracionManager.cs",
-              "RelativeToolTip": "DJ helper\\Model\\ConfiguracionManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "song.cs",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Model\\song.cs",
+              "RelativeDocumentMoniker": "DJ_WPF\\Model\\song.cs",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Model\\song.cs",
+              "RelativeToolTip": "DJ_WPF\\Model\\song.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAADAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T17:27:29.623Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainView.xaml.cs",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\View\\MainView.xaml.cs",
-              "RelativeDocumentMoniker": "DJ helper\\View\\MainView.xaml.cs",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\View\\MainView.xaml.cs",
-              "RelativeToolTip": "DJ helper\\View\\MainView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T16:31:40.444Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainView.xaml",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\View\\MainView.xaml",
-              "RelativeDocumentMoniker": "DJ helper\\View\\MainView.xaml",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\View\\MainView.xaml",
-              "RelativeToolTip": "DJ helper\\View\\MainView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-11-02T16:22:31.588Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BibliotecaViewModel.cs",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\ViewModel\\BibliotecaViewModel.cs",
-              "RelativeDocumentMoniker": "DJ helper\\ViewModel\\BibliotecaViewModel.cs",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\ViewModel\\BibliotecaViewModel.cs",
-              "RelativeToolTip": "DJ helper\\ViewModel\\BibliotecaViewModel.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACEAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T15:58:40.141Z",
+              "WhenOpened": "2025-05-03T20:39:42.577Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BibliotecaCanciones.cs",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\BibliotecaCanciones.cs",
-              "RelativeDocumentMoniker": "DJ helper\\Model\\BibliotecaCanciones.cs",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\BibliotecaCanciones.cs",
-              "RelativeToolTip": "DJ helper\\Model\\BibliotecaCanciones.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAArwIcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AudioPlayerService.cs",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Services\\AudioPlayerService.cs",
+              "RelativeDocumentMoniker": "DJ_WPF\\Services\\AudioPlayerService.cs",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Services\\AudioPlayerService.cs",
+              "RelativeToolTip": "DJ_WPF\\Services\\AudioPlayerService.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAswD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T15:05:35.47Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "config.xml",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\config.xml",
-              "RelativeDocumentMoniker": "DJ helper\\Model\\config.xml",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\config.xml",
-              "RelativeToolTip": "DJ helper\\Model\\config.xml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2024-11-02T14:31:41.04Z"
+              "WhenOpened": "2025-05-03T18:00:19.171Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "cancion.cs",
-              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\cancion.cs",
-              "RelativeDocumentMoniker": "DJ helper\\Model\\cancion.cs",
-              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ helper\\Model\\cancion.cs",
-              "RelativeToolTip": "DJ helper\\Model\\cancion.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACIAAAAWAAAAAAAAAA==",
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\ViewModel\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "DJ_WPF\\ViewModel\\MainViewModel.cs",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\ViewModel\\MainViewModel.cs",
+              "RelativeToolTip": "DJ_WPF\\ViewModel\\MainViewModel.cs",
+              "ViewState": "AgIAADwBAAAAAAAAAAAewE4BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T12:13:38.339Z"
+              "WhenOpened": "2025-05-03T10:37:42.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AddScoreView.xaml",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\View\\AddScoreView.xaml",
+              "RelativeDocumentMoniker": "DJ_WPF\\View\\AddScoreView.xaml",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\View\\AddScoreView.xaml",
+              "RelativeToolTip": "DJ_WPF\\View\\AddScoreView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-03T11:40:14.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AddScoreViewModel.cs",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\ViewModel\\AddScoreViewModel.cs",
+              "RelativeDocumentMoniker": "DJ_WPF\\ViewModel\\AddScoreViewModel.cs",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\ViewModel\\AddScoreViewModel.cs",
+              "RelativeToolTip": "DJ_WPF\\ViewModel\\AddScoreViewModel.cs",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAAAKoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T20:13:35.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SongRepository.cs",
+              "DocumentMoniker": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Model\\SongRepository.cs",
+              "RelativeDocumentMoniker": "DJ_WPF\\Model\\SongRepository.cs",
+              "ToolTip": "E:\\MyCodes\\DJ helper\\DJ helper\\DJ-helper\\DJ_WPF\\Model\\SongRepository.cs",
+              "RelativeToolTip": "DJ_WPF\\Model\\SongRepository.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAewKwAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T13:40:31.855Z"
             }
           ]
         }

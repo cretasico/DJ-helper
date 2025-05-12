@@ -3,6 +3,7 @@
   <ExcelPath>E:\Musica-E\Organizacion\Biblioteca.xlsx</ExcelPath>
   <SpotifyAPIKey>your_spotify_api_key</SpotifyAPIKey>
   <LibraryName>Biblioteca.xlsx</LibraryName>
+  <Source>E:\Musica-E\DJ Project</Source>
 
   <!-- Etiquetas de archivos MP3 -->
   <FileTags>
