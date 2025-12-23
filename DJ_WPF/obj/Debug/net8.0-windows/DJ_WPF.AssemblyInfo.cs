@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DJ_WPF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ca60afccabe7061ae2cec52575f8a990ce6a4a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d2397a5992b6a88c5fbb78bb0f943c57dd6aad1")]
 [assembly: System.Reflection.AssemblyProductAttribute("DJ_WPF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DJ_WPF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
