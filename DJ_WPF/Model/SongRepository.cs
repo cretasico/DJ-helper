@@ -67,28 +67,21 @@ namespace DJ_WPF.Model
         {
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Songs");
+                var worksheet = package.Workbook.Worksheets.Add(SongExcelSchema.SheetName);
 
-                var headers = new[] { "Title", "Artist", "BPM", "Genre", "Year", "Energy", "Key", "Popularity", "FileName", "FilePath", "Country", "MyScore", "Comment" };
-                for (int col = 0; col < headers.Length; col++)
-                    worksheet.Cells[1, col + 1].Value = headers[col];
+                // Escribir headers desde el esquema
+                for (int c = 0; c < SongExcelSchema.Columns.Count; c++)
+                    worksheet.Cells[1, c + 1].Value = SongExcelSchema.Columns[c].Header;
 
-                for (int row = 0; row < songs.Count; row++)
+                // Escribir filas usando los getters
+                for (int r = 0; r < songs.Count; r++)
                 {
-                    var s = songs[row];
-                    worksheet.Cells[row + 2, 1].Value = s.Title;
-                    worksheet.Cells[row + 2, 2].Value = s.Artist;
-                    worksheet.Cells[row + 2, 3].Value = s.BPM;
-                    worksheet.Cells[row + 2, 4].Value = s.Genre;
-                    worksheet.Cells[row + 2, 5].Value = s.Year;
-                    worksheet.Cells[row + 2, 6].Value = s.Energy;
-                    worksheet.Cells[row + 2, 7].Value = s.Key;
-                    worksheet.Cells[row + 2, 8].Value = s.Popularity;
-                    worksheet.Cells[row + 2, 9].Value = s.FileName;
-                    worksheet.Cells[row + 2, 10].Value = s.FilePath;
-                    worksheet.Cells[row + 2, 11].Value = s.Country;
-                    worksheet.Cells[row + 2, 12].Value = s.MyScore;
-                    worksheet.Cells[row + 2, 13].Value = s.Comment;
+                    var s = songs[r];
+                    for (int c = 0; c < SongExcelSchema.Columns.Count; c++)
+                    {
+                        var value = SongExcelSchema.Columns[c].Getter(s);
+                        worksheet.Cells[r + 2, c + 1].Value = value;
+                    }
                 }
 
                 package.SaveAs(new FileInfo(_excelPath));

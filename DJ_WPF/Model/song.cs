@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace DJ_WPF.Model
 {
-    public class Song
+    public class Song : INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,7 +46,6 @@ namespace DJ_WPF.Model
         public string FileName { get; set; }       // File name
         public string FilePath { get; set; }       // File path
         public string Country { get; set; }        // Country of origin
-        //public string MyScore { get; set; }           // Personal rating
         public string Comment { get; set; }        // Additional comments
 
         // New properties

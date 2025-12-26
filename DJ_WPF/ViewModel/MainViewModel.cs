@@ -1,26 +1,27 @@
-using System;
-using System.Collections.Generic;
+ï»¿using DJ_WPF.Commands;
+using DJ_WPF.Model;
+using DJ_WPF.View;
+using DJ_WPF.ViewModel;
+using OfficeOpenXml;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using TagLib;
-using System.Collections.ObjectModel;
-using DJ_WPF.ViewModel;
-using DJ_WPF.Commands;
-using DJ_WPF.View;
-using DJ_WPF.Model;
-using OfficeOpenXml;
+
 
 
 public class MainViewModel : ViewModelBase
 {
+    #region Private Fields
+
     private int _progress;
     private string _richTextContent;
     private bool _isScanning;
     private ProgressWindow _progressWindow;
     private object _currentView;
+
+    #endregion
+
+    #region Public Properties
 
     public int Progress
     {
@@ -46,12 +47,19 @@ public class MainViewModel : ViewModelBase
         set { _currentView = value; OnPropertyChanged(); }
     }
 
+    #endregion
+
+    #region Commands
+
     public ICommand ScanTagsCommand { get; }
     public ICommand ScanSongsCommand { get; }
     public ICommand UpdateFromExcelCommand { get; }
-    public ICommand ShowConfigurationViewCommand { get; } // Declarar la propiedad
+    public ICommand ShowConfigurationViewCommand { get; }
     public ICommand ShowAddScoreViewCommand { get; }
 
+    #endregion
+
+    #region Constructor
 
     public MainViewModel()
     {
@@ -61,53 +69,162 @@ public class MainViewModel : ViewModelBase
 
         ShowConfigurationViewCommand = new RelayCommand(() => CurrentView = new ConfigurationView());
         ShowAddScoreViewCommand = new RelayCommand(() => CurrentView = new AddScoreView());
-
-        //ShowConfigurationViewCommand = new RelayCommand(() => CurrentView = new ConfigurationViewModel());
-
-
     }
 
+    #endregion
 
+    #region Private Methods (UI Helpers)
 
-
-
-
-    private async Task ScanTagsAsync()
+    private void ShowProgressWindow(string initialText)
     {
         IsScanning = true;
         Progress = 0;
-        RichTextContent = "Scanning MP3 files...\n";
+        RichTextContent = initialText;
 
-        _progressWindow = new ProgressWindow
-        {
-            DataContext = this
-        };
+        _progressWindow = new ProgressWindow { DataContext = this };
         _progressWindow.Show();
+    }
 
+    private void CloseProgressWindow()
+    {
+        IsScanning = false;
+        _progressWindow?.Close();
+        _progressWindow = null;
+    }
 
-        Config config = Config.Load();
-        string musicPath = config.Source;
+    // Evita update de UI desde background thread
+    private void UpdateProgressSafe(int value)
+    {
+        if (System.Windows.Application.Current?.Dispatcher?.CheckAccess() == true)
+        {
+            Progress = value;
+        }
+        else
+        {
+            System.Windows.Application.Current?.Dispatcher?.Invoke(() => Progress = value);
+        }
+    }
 
+    private void ShowErrorAndStop(string message)
+    {
+        System.Windows.MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        CloseProgressWindow();
+    }
+
+    #endregion
+
+    #region Private Methods (Config / Validation)
+
+    private bool TryGetMusicPath(out string musicPath)
+    {
+        musicPath = string.Empty;
+        var config = Config.Load();
+        musicPath = config.Source;
 
         if (string.IsNullOrEmpty(musicPath) || !Directory.Exists(musicPath))
+            return false;
+
+        return true;
+    }
+
+    private bool TryGetExcelPaths(out string musicPath, out string excelPath)
+    {
+        musicPath = string.Empty;
+        excelPath = string.Empty;
+
+        var config = Config.Load();
+        musicPath = config.Source;
+        excelPath = config.ExcelPath;
+
+        if (string.IsNullOrEmpty(musicPath) || !Directory.Exists(musicPath))
+            return false;
+
+        if (string.IsNullOrEmpty(excelPath))
+            return false;
+
+        return true;
+    }
+
+    private bool TryGetUpdateExcelPaths(out string newExcelPath, out string oldExcelPath)
+    {
+        newExcelPath = string.Empty;
+        oldExcelPath = string.Empty;
+
+        var config = Config.Load();
+        newExcelPath = config.ExcelPath;
+        oldExcelPath = config.ExcelPathOld;
+
+        if (string.IsNullOrEmpty(newExcelPath) || string.IsNullOrEmpty(oldExcelPath))
+            return false;
+
+        if (!File.Exists(newExcelPath) || !File.Exists(oldExcelPath))
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region Private Methods (File Scanning)
+
+    private List<string> GetMp3FilesSafe(string rootPath)
+    {
+        var files = new List<string>();
+
+        try
         {
-            System.Windows.MessageBox.Show("Invalid path in config.xml", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            IsScanning = false;
-            _progressWindow.Close();
+            // incluir tambiÃ©n los mp3 directos en root
+            try
+            {
+                files.AddRange(Directory.GetFiles(rootPath, "*.mp3", SearchOption.TopDirectoryOnly));
+            }
+            catch (UnauthorizedAccessException) { }
+
+            foreach (var dir in Directory.EnumerateDirectories(rootPath, "*", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    files.AddRange(Directory.GetFiles(dir, "*.mp3", SearchOption.TopDirectoryOnly));
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // carpeta protegida â†’ skip
+                }
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // root no accesible
+        }
+
+        return files;
+    }
+
+    #endregion
+
+    #region Private Methods (Scan / Update)
+
+    private async Task ScanTagsAsync()
+    {
+        ShowProgressWindow("Scanning MP3 files...\n");
+
+        if (!TryGetMusicPath(out var musicPath))
+        {
+            ShowErrorAndStop("Invalid path in config.xml");
             return;
         }
 
-        var files = Directory.GetFiles(musicPath, "*.mp3", SearchOption.AllDirectories);
-        int totalFiles = files.Length;
+        var files = GetMp3FilesSafe(musicPath);
+        int totalFiles = files.Count;
+
         if (totalFiles == 0)
         {
             RichTextContent = "No MP3 files found.";
-            IsScanning = false;
-            _progressWindow.Close();
+            CloseProgressWindow();
             return;
         }
 
-        var tagCounts = new Dictionary<string, int>();
+        var tagCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         await Task.Run(() =>
         {
@@ -117,9 +234,9 @@ public class MainViewModel : ViewModelBase
                 {
                     using (var file = TagLib.File.Create(files[i]))
                     {
-                        foreach (var tag in file.Tag.GetType().GetProperties())
+                        foreach (var prop in file.Tag.GetType().GetProperties())
                         {
-                            string tagName = tag.Name;
+                            var tagName = prop.Name;
                             if (!tagCounts.ContainsKey(tagName))
                                 tagCounts[tagName] = 0;
                             tagCounts[tagName]++;
@@ -131,58 +248,38 @@ public class MainViewModel : ViewModelBase
                     Console.WriteLine($"Error reading {files[i]}: {ex.Message}");
                 }
 
-                Progress = (i + 1) * 100 / totalFiles;
+                UpdateProgressSafe((i + 1) * 100 / totalFiles);
             }
         });
 
         RichTextContent = $"Scan Completed!\nTotal Files: {totalFiles}\n\n";
-        foreach (var tag in tagCounts)
-        {
+        foreach (var tag in tagCounts.OrderByDescending(x => x.Value))
             RichTextContent += $"{tag.Key}: {tag.Value} files\n";
-        }
 
-        IsScanning = false;
-        _progressWindow.Close(); // Cerrar la ventana de progreso
+        CloseProgressWindow();
     }
 
     private async Task ScanSongsAsync()
     {
-        IsScanning = true;
-        Progress = 0;
-        RichTextContent = "Scanning MP3 files and generating Excel...\n";
+        ShowProgressWindow("Scanning MP3 files and generating Excel...\n");
 
-        // Mostrar la ventana de progreso
-        _progressWindow = new ProgressWindow
+        if (!TryGetExcelPaths(out var musicPath, out var excelFilePath))
         {
-            DataContext = this
-        };
-        _progressWindow.Show();
-
-
-        Config config = Config.Load();
-        string musicPath = config.Source;
-        string excelFilePath = config.ExcelPath;
-
-
-        if (string.IsNullOrEmpty(musicPath) || !Directory.Exists(musicPath))
-        {
-            System.Windows.MessageBox.Show("Invalid path in config.xml", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            IsScanning = false;
-            _progressWindow.Close();
+            ShowErrorAndStop("Invalid path in config.xml");
             return;
         }
 
-        var files = Directory.GetFiles(musicPath, "*.mp3", SearchOption.AllDirectories);
-        int totalFiles = files.Length;
+        var files = GetMp3FilesSafe(musicPath);
+        int totalFiles = files.Count;
+
         if (totalFiles == 0)
         {
             RichTextContent = "No MP3 files found.";
-            IsScanning = false;
-            _progressWindow.Close();
+            CloseProgressWindow();
             return;
         }
 
-        var songs = new List<Song>();
+        var songs = new List<Song>(capacity: totalFiles);
 
         await Task.Run(() =>
         {
@@ -198,26 +295,26 @@ public class MainViewModel : ViewModelBase
                             bpm: (int)(file.Tag.BeatsPerMinute > 0 ? file.Tag.BeatsPerMinute : 0),
                             genre: file.Tag.FirstGenre ?? string.Empty,
                             year: (int)(file.Tag.Year > 0 ? file.Tag.Year : 0),
-                            energy: 0, // No disponible en los tags
-                            key: string.Empty, // No disponible en los tags
-                            popularity: 0, // No disponible en los tags
+                            energy: 0,
+                            key: string.Empty,
+                            popularity: 0,
                             fileName: Path.GetFileName(files[i]),
                             filePath: Path.GetDirectoryName(files[i]),
-                            country: string.Empty, // No disponible en los tags
-                            myScore: string.Empty, // Valor predeterminado
-                            comment: string.Empty, // Valor predeterminado
-                            danceability: 0, // Valor predeterminado
-                            loudness: 0, // Valor predeterminado
-                            speechiness: 0, // Valor predeterminado
-                            acousticness: 0, // Valor predeterminado
-                            instrumentalness: 0, // Valor predeterminado
-                            liveness: 0, // Valor predeterminado
-                            valence: 0, // Valor predeterminado
-                            durationMs: 0, // Valor predeterminado
-                            mode: -1, // Valor predeterminado (mayor)
-                            timeSignature: 0, // Valor predeterminado
-                            isSearchedOnSpotify: false, // No buscado aún
-                            noMatchOnSpotify: false // No se ha intentado buscar
+                            country: string.Empty,
+                            myScore: string.Empty,
+                            comment: string.Empty,
+                            danceability: 0,
+                            loudness: 0,
+                            speechiness: 0,
+                            acousticness: 0,
+                            instrumentalness: 0,
+                            liveness: 0,
+                            valence: 0,
+                            durationMs: 0,
+                            mode: -1,
+                            timeSignature: 0,
+                            isSearchedOnSpotify: false,
+                            noMatchOnSpotify: false
                         );
 
                         songs.Add(song);
@@ -228,80 +325,62 @@ public class MainViewModel : ViewModelBase
                     Console.WriteLine($"Error reading {files[i]}: {ex.Message}");
                 }
 
-                Progress = (i + 1) * 100 / totalFiles;
+                UpdateProgressSafe((i + 1) * 100 / totalFiles);
             }
         });
 
-
-        // Generar el archivo Excel
         try
         {
             ExcelPackage.License.SetNonCommercialPersonal("<LaPausa.org>");
 
-
-            using (var package = new OfficeOpenXml.ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Songs");
 
-                // Escribir encabezados
-                worksheet.Cells[1, 1].Value = "Title";
-                worksheet.Cells[1, 2].Value = "Artist";
-                worksheet.Cells[1, 3].Value = "BPM";
-                worksheet.Cells[1, 4].Value = "Genre";
-                worksheet.Cells[1, 5].Value = "Year";
-                worksheet.Cells[1, 6].Value = "Energy";
-                worksheet.Cells[1, 7].Value = "Key";
-                worksheet.Cells[1, 8].Value = "Popularity";
-                worksheet.Cells[1, 9].Value = "FileName";
-                worksheet.Cells[1, 10].Value = "FilePath";
-                worksheet.Cells[1, 11].Value = "Country";
-                worksheet.Cells[1, 12].Value = "MyScore";
-                worksheet.Cells[1, 13].Value = "Comment";
-                worksheet.Cells[1, 14].Value = "Danceability";
-                worksheet.Cells[1, 15].Value = "Loudness";
-                worksheet.Cells[1, 16].Value = "Speechiness";
-                worksheet.Cells[1, 17].Value = "Acousticness";
-                worksheet.Cells[1, 18].Value = "Instrumentalness";
-                worksheet.Cells[1, 19].Value = "Liveness";
-                worksheet.Cells[1, 20].Value = "Valence";
-                worksheet.Cells[1, 21].Value = "DurationMs";
-                worksheet.Cells[1, 22].Value = "Mode";
-                worksheet.Cells[1, 23].Value = "TimeSignature";
-                worksheet.Cells[1, 24].Value = "IsSearchedOnSpotify";
-                worksheet.Cells[1, 25].Value = "NoMatchOnSpotify";
+                // headers
+                string[] headers =
+                {
+                    "Title","Artist","BPM","Genre","Year","Energy","Key","Popularity",
+                    "FileName","FilePath","Country","MyScore","Comment","Danceability",
+                    "Loudness","Speechiness","Acousticness","Instrumentalness","Liveness",
+                    "Valence","DurationMs","Mode","TimeSignature","IsSearchedOnSpotify","NoMatchOnSpotify"
+                };
 
-                // Escribir datos
+                for (int c = 0; c < headers.Length; c++)
+                    worksheet.Cells[1, c + 1].Value = headers[c];
+
                 for (int i = 0; i < songs.Count; i++)
                 {
-                    var song = songs[i];
-                    worksheet.Cells[i + 2, 1].Value = song.Title;
-                    worksheet.Cells[i + 2, 2].Value = song.Artist;
-                    worksheet.Cells[i + 2, 3].Value = song.BPM;
-                    worksheet.Cells[i + 2, 4].Value = song.Genre;
-                    worksheet.Cells[i + 2, 5].Value = song.Year;
-                    worksheet.Cells[i + 2, 6].Value = song.Energy;
-                    worksheet.Cells[i + 2, 7].Value = song.Key;
-                    worksheet.Cells[i + 2, 8].Value = song.Popularity;
-                    worksheet.Cells[i + 2, 9].Value = song.FileName;
-                    worksheet.Cells[i + 2, 10].Value = song.FilePath;
-                    worksheet.Cells[i + 2, 11].Value = song.Country;
-                    worksheet.Cells[i + 2, 12].Value = song.MyScore;
-                    worksheet.Cells[i + 2, 13].Value = song.Comment;
-                    worksheet.Cells[i + 2, 14].Value = song.Danceability;
-                    worksheet.Cells[i + 2, 15].Value = song.Loudness;
-                    worksheet.Cells[i + 2, 16].Value = song.Speechiness;
-                    worksheet.Cells[i + 2, 17].Value = song.Acousticness;
-                    worksheet.Cells[i + 2, 18].Value = song.Instrumentalness;
-                    worksheet.Cells[i + 2, 19].Value = song.Liveness;
-                    worksheet.Cells[i + 2, 20].Value = song.Valence;
-                    worksheet.Cells[i + 2, 21].Value = song.DurationMs;
-                    worksheet.Cells[i + 2, 22].Value = song.Mode;
-                    worksheet.Cells[i + 2, 23].Value = song.TimeSignature;
-                    worksheet.Cells[i + 2, 24].Value = song.IsSearchedOnSpotify;
-                    worksheet.Cells[i + 2, 25].Value = song.NoMatchOnSpotify;
+                    var s = songs[i];
+                    int r = i + 2;
+
+                    worksheet.Cells[r, 1].Value = s.Title;
+                    worksheet.Cells[r, 2].Value = s.Artist;
+                    worksheet.Cells[r, 3].Value = s.BPM;
+                    worksheet.Cells[r, 4].Value = s.Genre;
+                    worksheet.Cells[r, 5].Value = s.Year;
+                    worksheet.Cells[r, 6].Value = s.Energy;
+                    worksheet.Cells[r, 7].Value = s.Key;
+                    worksheet.Cells[r, 8].Value = s.Popularity;
+                    worksheet.Cells[r, 9].Value = s.FileName;
+                    worksheet.Cells[r, 10].Value = s.FilePath;
+                    worksheet.Cells[r, 11].Value = s.Country;
+                    worksheet.Cells[r, 12].Value = s.MyScore;
+                    worksheet.Cells[r, 13].Value = s.Comment;
+                    worksheet.Cells[r, 14].Value = s.Danceability;
+                    worksheet.Cells[r, 15].Value = s.Loudness;
+                    worksheet.Cells[r, 16].Value = s.Speechiness;
+                    worksheet.Cells[r, 17].Value = s.Acousticness;
+                    worksheet.Cells[r, 18].Value = s.Instrumentalness;
+                    worksheet.Cells[r, 19].Value = s.Liveness;
+                    worksheet.Cells[r, 20].Value = s.Valence;
+                    worksheet.Cells[r, 21].Value = s.DurationMs;
+                    worksheet.Cells[r, 22].Value = s.Mode;
+                    worksheet.Cells[r, 23].Value = s.TimeSignature;
+                    worksheet.Cells[r, 24].Value = s.IsSearchedOnSpotify;
+                    worksheet.Cells[r, 25].Value = s.NoMatchOnSpotify;
                 }
 
-                // Guardar el archivo Excel
                 package.SaveAs(new FileInfo(excelFilePath));
             }
 
@@ -312,187 +391,120 @@ public class MainViewModel : ViewModelBase
             RichTextContent += $"Error creating Excel file: {ex.Message}\n";
         }
 
-        IsScanning = false;
-        _progressWindow.Close(); // Cerrar la ventana de progreso
+        CloseProgressWindow();
     }
 
     private async Task UpdateFromExcelAsync()
     {
-        IsScanning = true;
-        Progress = 0;
-        RichTextContent = "Updating songs from old Excel...\n";
+        ShowProgressWindow("Updating songs from old Excel...\n");
 
-        // Mostrar la ventana de progreso
-        _progressWindow = new ProgressWindow
+        if (!TryGetUpdateExcelPaths(out var newExcelPath, out var oldExcelPath))
         {
-            DataContext = this
-        };
-        _progressWindow.Show();
-
-        Config config = Config.Load();
-        string newExcelPath = config.ExcelPath;
-        string oldExcelPath = config.ExcelPathOld;
-
-
-        if (string.IsNullOrEmpty(newExcelPath) || string.IsNullOrEmpty(oldExcelPath) ||
-            !System.IO.File.Exists(newExcelPath) || !System.IO.File.Exists(oldExcelPath))
-        {
-            System.Windows.MessageBox.Show("Invalid Excel paths in config.xml", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            IsScanning = false;
-            _progressWindow.Close();
+            ShowErrorAndStop("Invalid Excel paths in config.xml");
             return;
         }
 
         try
         {
-            var newSongs = new Dictionary<string, Dictionary<string, object>>();
-            var oldSongs = new Dictionary<string, Dictionary<string, object>>();
             ExcelPackage.License.SetNonCommercialPersonal("<LaPausa.org>");
 
-            // Leer el nuevo archivo Excel
+            var newSongs = new Dictionary<string, Dictionary<string, object>>(StringComparer.OrdinalIgnoreCase);
+            var oldSongs = new Dictionary<string, Dictionary<string, object>>(StringComparer.OrdinalIgnoreCase);
+
+            // 1) new excel
             await Task.Run(() =>
             {
-                using (var package = new ExcelPackage(new FileInfo(newExcelPath)))
+                using var package = new ExcelPackage(new FileInfo(newExcelPath));
+                var ws = package.Workbook.Worksheets.FirstOrDefault()
+                         ?? throw new Exception("New Excel file is empty.");
+
+                int rows = ws.Dimension.Rows;
+                int cols = ws.Dimension.Columns;
+
+                int titleCol = FindColumnIndex(ws, cols, "Title");
+                for (int row = 2; row <= rows; row++)
                 {
-                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                    if (worksheet == null) throw new Exception("New Excel file is empty.");
+                    var title = ws.Cells[row, titleCol].Text;
+                    if (string.IsNullOrWhiteSpace(title)) continue;
 
-                    int rows = worksheet.Dimension.Rows;
-                    int cols = worksheet.Dimension.Columns;
-
-                    // Encuentra dinámicamente la columna "Title"
-                    int titleColumnIndex = -1;
+                    var songData = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
                     for (int col = 1; col <= cols; col++)
                     {
-                        var header = worksheet.Cells[1, col].Text.Trim();
-                        if (header.Equals("Title", StringComparison.OrdinalIgnoreCase))
-                        {
-                            titleColumnIndex = col;
-                            break;
-                        }
+                        var header = ws.Cells[1, col].Text;
+                        songData[header] = ws.Cells[row, col].Value;
                     }
-                    if (titleColumnIndex == -1)
-                        throw new Exception("No 'Title' column found in the new Excel file.");
+                    newSongs[title] = songData;
 
-                    for (int row = 2; row <= rows; row++) // Asumiendo que la fila 1 son encabezados
-                    {
-                        var title = worksheet.Cells[row, titleColumnIndex].Text; // Columna "Title"
-                        if (string.IsNullOrEmpty(title)) continue;
-
-                        var songData = new Dictionary<string, object>();
-                        for (int col = 1; col <= cols; col++)
-                        {
-                            var header = worksheet.Cells[1, col].Text;
-                            var value = worksheet.Cells[row, col].Value;
-                            songData[header] = value;
-                        }
-                        newSongs[title] = songData;
-
-                        // Actualizar el progreso
-                        Progress = (row - 1) * 100 / rows / 3; // Progreso entre 0% y 33%
-                    }
+                    UpdateProgressSafe((row - 1) * 33 / Math.Max(1, rows - 1));
                 }
             });
 
-            // Leer el archivo Excel antiguo
+            // 2) old excel
             await Task.Run(() =>
             {
-                using (var package = new ExcelPackage(new FileInfo(oldExcelPath)))
+                using var package = new ExcelPackage(new FileInfo(oldExcelPath));
+                var ws = package.Workbook.Worksheets.FirstOrDefault()
+                         ?? throw new Exception("Old Excel file is empty.");
+
+                int rows = ws.Dimension.Rows;
+                int cols = ws.Dimension.Columns;
+
+                int titleCol = FindColumnIndex(ws, cols, "Title");
+                for (int row = 2; row <= rows; row++)
                 {
-                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                    if (worksheet == null) throw new Exception("Old Excel file is empty.");
+                    var title = ws.Cells[row, titleCol].Text;
+                    if (string.IsNullOrWhiteSpace(title)) continue;
 
-                    int rows = worksheet.Dimension.Rows;
-                    int cols = worksheet.Dimension.Columns;
-
-                    // Encuentra dinámicamente la columna "Title"
-                    int titleColumnIndex = -1;
+                    var songData = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
                     for (int col = 1; col <= cols; col++)
                     {
-                        var header = worksheet.Cells[1, col].Text.Trim();
-                        if (header.Equals("Title", StringComparison.OrdinalIgnoreCase))
-                        {
-                            titleColumnIndex = col;
-                            break;
-                        }
+                        var header = ws.Cells[1, col].Text;
+                        songData[header] = ws.Cells[row, col].Value;
                     }
-                    if (titleColumnIndex == -1)
-                        throw new Exception("No 'Title' column found in the old Excel file.");
+                    oldSongs[title] = songData;
 
-                    for (int row = 2; row <= rows; row++) 
-                    {
-                        var title = worksheet.Cells[row, titleColumnIndex].Text; // Columna "Title"
-                        if (string.IsNullOrEmpty(title)) continue;
-
-                        var songData = new Dictionary<string, object>();
-                        for (int col = 1; col <= cols; col++)
-                        {
-                            var header = worksheet.Cells[1, col].Text;
-                            var value = worksheet.Cells[row, col].Value;
-                            songData[header] = value;
-                        }
-                        oldSongs[title] = songData;
-
-                        // Actualizar el progreso
-                        Progress = 33 + (row - 1) * 100 / rows / 3; // Progreso entre 33% y 66%
-                    }
+                    UpdateProgressSafe(33 + (row - 1) * 33 / Math.Max(1, rows - 1));
                 }
             });
 
-            // Actualizar el nuevo archivo Excel
+            // 3) merge into new excel
             await Task.Run(() =>
             {
-                using (var package = new ExcelPackage(new FileInfo(newExcelPath)))
+                using var package = new ExcelPackage(new FileInfo(newExcelPath));
+                var ws = package.Workbook.Worksheets.FirstOrDefault()
+                         ?? throw new Exception("New Excel file is empty.");
+
+                int rows = ws.Dimension.Rows;
+                int cols = ws.Dimension.Columns;
+
+                int titleCol = FindColumnIndex(ws, cols, "Title");
+
+                for (int row = 2; row <= rows; row++)
                 {
-                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                    if (worksheet == null) throw new Exception("New Excel file is empty.");
+                    var title = ws.Cells[row, titleCol].Text;
+                    if (string.IsNullOrWhiteSpace(title)) continue;
+                    if (!oldSongs.TryGetValue(title, out var oldSongData)) continue;
 
-                    int rows = worksheet.Dimension.Rows;
-                    int cols = worksheet.Dimension.Columns;
-
-                    // Obtener encabezados
-                    var headers = new List<string>();
                     for (int col = 1; col <= cols; col++)
                     {
-                        headers.Add(worksheet.Cells[1, col].Text);
+                        var header = ws.Cells[1, col].Text;
+                        if (!oldSongData.TryGetValue(header, out var oldValue)) continue;
+
+                        var newValue = ws.Cells[row, col].Value;
+
+                        bool isNullOrZero =
+                            newValue == null ||
+                            (newValue is double d && d == 0) ||
+                            (newValue is string s && string.IsNullOrWhiteSpace(s));
+
+                        if (isNullOrZero && oldValue != null)
+                            ws.Cells[row, col].Value = oldValue;
                     }
 
-                    int titleColumnIndex = headers.FindIndex(h => h.Equals("Title", StringComparison.OrdinalIgnoreCase)) + 1;
-                    if (titleColumnIndex == 0)
-                        throw new Exception("No 'Title' column found.");
-
-                    for (int row = 2; row <= rows; row++) // Asumiendo que la fila 1 son encabezados
-                    {
-                        var title = worksheet.Cells[row, titleColumnIndex].Text;
-                        if (string.IsNullOrEmpty(title) || !oldSongs.ContainsKey(title)) continue;
-
-                        var oldSongData = oldSongs[title];
-
-                        for (int col = 1; col <= cols; col++)
-                        {
-                            var header = worksheet.Cells[1, col].Text;
-
-                            if (!oldSongData.ContainsKey(header)) continue;
-
-                            var newValue = worksheet.Cells[row, col].Value;
-                            var oldValue = oldSongData[header];
-
-                            bool isNullOrZero = newValue == null ||
-                                                (newValue is double d && d == 0) ||
-                                                (newValue is string s && string.IsNullOrWhiteSpace(s));
-
-                            if (isNullOrZero && oldValue != null)
-                            {
-                                worksheet.Cells[row, col].Value = oldValue;
-                            }
-                        }
-
-                        // Actualizar el progreso
-                        Progress = 66 + (row - 1) * 100 / rows / 3;
-                    }
-
-                    package.Save();
+                    UpdateProgressSafe(66 + (row - 1) * 34 / Math.Max(1, rows - 1));
                 }
+
+                package.Save();
             });
 
             RichTextContent += "Update completed successfully.\n";
@@ -502,12 +514,23 @@ public class MainViewModel : ViewModelBase
             RichTextContent += $"Error updating songs: {ex.Message}\n";
         }
 
-        IsScanning = false;
-        Progress = 100; // Asegurarse de que el progreso llegue al 100%
-        _progressWindow.Close(); // Cerrar la ventana de progreso
+        Progress = 100;
+        CloseProgressWindow();
     }
 
+    private static int FindColumnIndex(ExcelWorksheet ws, int cols, string headerName)
+    {
+        for (int col = 1; col <= cols; col++)
+        {
+            var header = ws.Cells[1, col].Text.Trim();
+            if (header.Equals(headerName, StringComparison.OrdinalIgnoreCase))
+                return col;
+        }
+        throw new Exception($"No '{headerName}' column found.");
+    }
 
-
-
+    #endregion
 }
+
+
+
